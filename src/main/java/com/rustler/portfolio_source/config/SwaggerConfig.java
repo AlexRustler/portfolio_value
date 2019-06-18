@@ -1,4 +1,4 @@
-package com.rustler.REST_Counters.config;
+package com.rustler.portfolio_source.config;
 
 /**
  * Created by User on 05.06.2019.
