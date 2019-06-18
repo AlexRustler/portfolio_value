@@ -24,8 +24,11 @@ public class PortfolioController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Stock> getPortfolioValue(@RequestBody Stocks stocks) {
-        return ResponseEntity.status(HttpStatus.OK).body(stocks.get(0));
+    public ResponseEntity<Value> getPortfolioValue(@RequestBody Stocks stocks) {
+        Value portfolio_value;
+        portfolio_value = this.portfolioService.calculateValue(stocks);
+
+        return ResponseEntity.status(HttpStatus.OK).body(portfolio_value);
     }
 
 }
