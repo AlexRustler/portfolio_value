@@ -27,7 +27,6 @@ public class PortfolioController {
     public ResponseEntity<Value> getPortfolioValue(@RequestBody Stocks stocks) {
         Value portfolio_value;
         portfolio_value = this.portfolioService.calculateValue(stocks);
-
         return ResponseEntity.status(HttpStatus.OK).body(portfolio_value);
     }
 
