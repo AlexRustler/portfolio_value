@@ -17,28 +17,25 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-
 @Service
 public class PortfolioService {
 
-    private static final String TOKEN = "" ;
+    private static final String TOKEN = "";
 
     public Value calculateValue(Stocks stocks) {
         Value portfolio_value = new Value();
         Map<String, Double> sectors = new ConcurrentHashMap<>();
 
-        for (Stock stock:stocks.getStocks()
+        for (Stock stock : stocks.getStocks()
         ) {
             Double latestPrice = getLatestPrice(stock.getSymbol());
             String sector = getSector(stock.getSymbol());
             Double assetValue = latestPrice * stock.getVolume();
             portfolio_value.addValue(assetValue);
             sectors = updateSectors(sectors, sector, assetValue);
-
         }
-        System.out.println(sectors);
-        portfolio_value.calculateProportions(sectors);
 
+        portfolio_value.calculateProportions(sectors);
         return portfolio_value;
     }
 
@@ -66,11 +63,13 @@ public class PortfolioService {
         return company.getSector();
     }
 
+
+
     Map<String, Double> updateSectors(Map<String, Double> sectors, String sector, Double newValue) {
 
         Double oldValue = sectors.getOrDefault(sector, 0.0);
 
-        sectors.put(sector, oldValue+newValue);
+        sectors.put(sector, oldValue + newValue);
         return sectors;
     }
 }

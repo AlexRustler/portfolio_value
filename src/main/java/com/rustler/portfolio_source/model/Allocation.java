@@ -15,24 +15,13 @@ public class Allocation {
         return sector;
     }
 
-    public void setSector(String sector) {
-        this.sector = sector;
-    }
-
     public Double getAssetValue() {
         return assetValue;
-    }
-
-    public void setAssetValue(Double assetValue) {
-        this.assetValue = assetValue;
     }
 
     public Double getProportion() {
         return proportion;
     }
 
-    public void setProportion(Double proportion) {
-        this.proportion = proportion;
-    }
 }
 

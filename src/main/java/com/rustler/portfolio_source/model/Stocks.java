@@ -10,11 +10,4 @@ public class Stocks {
         return stocks;
     }
 
-    public void setStocks(Stock[] stocks_set) {
-        this.stocks = stocks_set;
-    }
-
-    public Stock get(int index) {
-        return this.stocks[index];
-    }
 }

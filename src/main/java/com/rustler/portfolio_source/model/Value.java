@@ -16,17 +16,8 @@ public class Value {
         return value;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-
     public ArrayList<Allocation> getAllocations() {
         return allocations;
-    }
-
-    public void setAllocations(ArrayList<Allocation> allocations) {
-        this.allocations = allocations;
     }
 
     public void addValue(Double value) {

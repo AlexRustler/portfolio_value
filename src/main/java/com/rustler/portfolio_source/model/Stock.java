@@ -13,15 +13,8 @@ public class Stock {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
     public Integer getVolume() {
         return volume;
     }
 
-    public void setVolume(Integer volume) {
-        this.volume = volume;
-    }
 }
