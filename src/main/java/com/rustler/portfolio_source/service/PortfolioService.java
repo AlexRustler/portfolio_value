@@ -53,15 +53,16 @@ public class PortfolioService {
 
     private String getSector(String symbol) {
 
-        final IEXCloudClient iexTradingClient = IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
-                new IEXCloudTokenBuilder()
-                        .withPublishableToken(TOKEN)
-                        .build());
-        final Company company = iexTradingClient.executeRequest(new CompanyRequestBuilder()
-                .withSymbol(symbol)
-                .build());
-        return company.getSector();
-    }
+    final IEXCloudClient iexTradingClient = IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
+            new IEXCloudTokenBuilder()
+                    .withPublishableToken(TOKEN)
+                    .build());
+    final Company company = iexTradingClient.executeRequest(new CompanyRequestBuilder()
+            .withSymbol(symbol)
+            .build());
+    return company.getSector();
+}
+
 
 
 

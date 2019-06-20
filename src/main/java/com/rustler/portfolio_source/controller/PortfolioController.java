@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @Api
@@ -24,7 +25,7 @@ public class PortfolioController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Value> getPortfolioValue(@RequestBody Stocks stocks) {
+    public ResponseEntity<Value> getPortfolioValue(@Valid @RequestBody Stocks stocks) {
         Value portfolio_value;
         portfolio_value = this.portfolioService.calculateValue(stocks);
         return ResponseEntity.status(HttpStatus.OK).body(portfolio_value);
