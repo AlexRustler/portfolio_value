@@ -2,7 +2,8 @@ package com.rustler.portfolio_source.service;
 
 import com.rustler.portfolio_source.model.Stock;
 import com.rustler.portfolio_source.model.Stocks;
-import com.rustler.portfolio_source.model.Value;
+import com.rustler.portfolio_source.model.PortfolioValue;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.zankowski.iextrading4j.api.stocks.Company;
 import pl.zankowski.iextrading4j.api.stocks.Quote;
@@ -20,10 +21,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class PortfolioService {
 
-    private static final String TOKEN = "";
+    @Value("${iexcloud.publish.token}")
+    private String TOKEN;
 
-    public Value calculateValue(Stocks stocks) {
-        Value portfolio_value = new Value();
+    public PortfolioValue calculateValue(Stocks stocks) {
+        PortfolioValue portfolio_value = new PortfolioValue();
         Map<String, Double> sectors = new ConcurrentHashMap<>();
 
         for (Stock stock : stocks.getStocks()
@@ -45,17 +47,15 @@ public class PortfolioService {
                 .withSymbol(symbol)
                 .build());
         return quote.getLatestPrice().doubleValue();
-
     }
 
     private String getSector(String symbol) {
-
         final IEXCloudClient iexTradingClient = getIEXCloudClient();
         final Company company = iexTradingClient.executeRequest(new CompanyRequestBuilder()
                 .withSymbol(symbol)
                 .build());
-    return company.getSector();
-}
+        return company.getSector();
+    }
 
     private IEXCloudClient getIEXCloudClient() {
         IEXCloudClient iexTradingClient = IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
@@ -65,12 +65,9 @@ public class PortfolioService {
         return iexTradingClient;
     }
 
-
-
     Map<String, Double> updateSectors(Map<String, Double> sectors, String sector, Double newValue) {
 
         Double oldValue = sectors.getOrDefault(sector, 0.0);
-
         sectors.put(sector, oldValue + newValue);
         return sectors;
     }

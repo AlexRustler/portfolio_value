@@ -3,11 +3,11 @@ package com.rustler.portfolio_source.model;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Value {
+public class PortfolioValue {
     private Double value;
     private ArrayList<Allocation> allocations;
 
-    public Value() {
+    public PortfolioValue() {
         this.value = 0.0;
         this.allocations = new ArrayList<Allocation>();
     }
