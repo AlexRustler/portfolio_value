@@ -40,10 +40,7 @@ public class PortfolioService {
     }
 
     private Double getLatestPrice(String symbol) {
-        final IEXCloudClient iexTradingClient = IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
-                new IEXCloudTokenBuilder()
-                        .withPublishableToken(TOKEN)
-                        .build());
+        final IEXCloudClient iexTradingClient = getIEXCloudClient();
         final Quote quote = iexTradingClient.executeRequest(new QuoteRequestBuilder()
                 .withSymbol(symbol)
                 .build());
@@ -53,16 +50,20 @@ public class PortfolioService {
 
     private String getSector(String symbol) {
 
-    final IEXCloudClient iexTradingClient = IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
-            new IEXCloudTokenBuilder()
-                    .withPublishableToken(TOKEN)
-                    .build());
-    final Company company = iexTradingClient.executeRequest(new CompanyRequestBuilder()
-            .withSymbol(symbol)
-            .build());
+        final IEXCloudClient iexTradingClient = getIEXCloudClient();
+        final Company company = iexTradingClient.executeRequest(new CompanyRequestBuilder()
+                .withSymbol(symbol)
+                .build());
     return company.getSector();
 }
 
+    private IEXCloudClient getIEXCloudClient() {
+        IEXCloudClient iexTradingClient = IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
+                new IEXCloudTokenBuilder()
+                        .withPublishableToken(TOKEN)
+                        .build());
+        return iexTradingClient;
+    }
 
 
 
