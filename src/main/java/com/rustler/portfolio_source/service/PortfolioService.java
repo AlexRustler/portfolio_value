@@ -1,10 +1,12 @@
 package com.rustler.portfolio_source.service;
 
+import com.rustler.portfolio_source.controller.exceptions.NotFoundException;
 import com.rustler.portfolio_source.model.Stock;
 import com.rustler.portfolio_source.model.Stocks;
 import com.rustler.portfolio_source.model.PortfolioValue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pl.zankowski.iextrading4j.api.exception.IEXTradingException;
 import pl.zankowski.iextrading4j.api.stocks.Company;
 import pl.zankowski.iextrading4j.api.stocks.Quote;
 import pl.zankowski.iextrading4j.client.IEXCloudClient;
@@ -24,20 +26,26 @@ public class PortfolioService {
     @Value("${iexcloud.publish.token}")
     private String TOKEN;
 
-    public PortfolioValue calculateValue(Stocks stocks) {
+    public PortfolioValue calculateValue(Stocks stocks) throws NotFoundException{
         PortfolioValue portfolio_value = new PortfolioValue();
         Map<String, Double> sectors = new ConcurrentHashMap<>();
+        String symbol = "";
+        try {
+            for (Stock stock : stocks.getStocks()
+                    ) {
+                symbol = stock.getSymbol();
+                Double latestPrice = getLatestPrice(symbol);
+                String sector = getSector(symbol);
+                Double assetValue = latestPrice * stock.getVolume();
+                portfolio_value.addValue(assetValue);
+                sectors = updateSectors(sectors, sector, assetValue);
+            }
 
-        for (Stock stock : stocks.getStocks()
-        ) {
-            Double latestPrice = getLatestPrice(stock.getSymbol());
-            String sector = getSector(stock.getSymbol());
-            Double assetValue = latestPrice * stock.getVolume();
-            portfolio_value.addValue(assetValue);
-            sectors = updateSectors(sectors, sector, assetValue);
+            portfolio_value.calculateProportions(sectors);
         }
-
-        portfolio_value.calculateProportions(sectors);
+        catch (IEXTradingException e) {
+            throw new NotFoundException(e.getMessage(), symbol);
+        }
         return portfolio_value;
     }
 
