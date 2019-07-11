@@ -38,7 +38,7 @@ public class PortfolioService {
                 String sector = getSector(symbol);
                 Double assetValue = latestPrice * stock.getVolume();
                 portfolio_value.addValue(assetValue);
-                sectors = updateSectors(sectors, sector, assetValue);
+                updateSectors(sectors, sector, assetValue);
             }
 
             portfolio_value.calculateProportions(sectors);
@@ -66,17 +66,14 @@ public class PortfolioService {
     }
 
     private IEXCloudClient getIEXCloudClient() {
-        IEXCloudClient iexTradingClient = IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
+        return IEXTradingClient.create(IEXTradingApiVersion.IEX_CLOUD_V1,
                 new IEXCloudTokenBuilder()
                         .withPublishableToken(TOKEN)
                         .build());
-        return iexTradingClient;
     }
 
-    Map<String, Double> updateSectors(Map<String, Double> sectors, String sector, Double newValue) {
-
+    private void updateSectors(Map<String, Double> sectors, String sector, Double newValue) {
         Double oldValue = sectors.getOrDefault(sector, 0.0);
         sectors.put(sector, oldValue + newValue);
-        return sectors;
     }
 }

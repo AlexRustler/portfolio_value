@@ -5,11 +5,7 @@ import com.rustler.portfolio_source.model.Stocks;
 import com.rustler.portfolio_source.model.PortfolioValue;
 import com.rustler.portfolio_source.service.PortfolioService;
 import io.swagger.annotations.Api;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -22,11 +18,9 @@ public class PortfolioController {
         this.portfolioService = portfolioService;
     }
 
-    @PutMapping("/")
-    public ResponseEntity<PortfolioValue> getPortfolioValue(@Valid @RequestBody Stocks stocks) throws NotFoundException {
-        PortfolioValue portfolio_value;
-        portfolio_value = this.portfolioService.calculateValue(stocks);
-        return ResponseEntity.status(HttpStatus.OK).body(portfolio_value);
+    @PutMapping("/value")
+    public PortfolioValue putPortfolioValue(@Valid @RequestBody Stocks stocks) throws NotFoundException {
+        return this.portfolioService.calculateValue(stocks);
     }
 
 }
