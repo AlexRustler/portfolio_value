@@ -9,7 +9,7 @@ public class PortfolioValue {
 
     public PortfolioValue() {
         this.value = 0.0;
-        this.allocations = new ArrayList<Allocation>();
+        this.allocations = new ArrayList<>();
     }
 
     public Double getValue() {

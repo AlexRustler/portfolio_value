@@ -14,4 +14,12 @@ public class ExceptionResponse {
         this.message = message;
         this.detailed = detailed;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getDetailed() {
+        return detailed;
+    }
 }
